@@ -1,0 +1,67 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- Personal Information -->
+    <div class="col-md-4 personal-information">
+      <div class="text-center">
+        <img [src]="profile.imagePath" class="img-fluid rounded-circle mb-3" alt="{{ profile.name }}">
+        <h2>{{ profile.name }}</h2>
+        <p>{{ profile.title }}</p>
+      </div>
+      <hr>
+      <div class="mb-4">
+        <h4>Contact Information</h4>
+        <ul class="list-unstyled">
+          <li><i class="fa fa-envelope"></i> {{ profile.contact.email }}</li>
+          <li><i class="fa fa-phone"></i> {{ profile.contact.phone }}</li>
+          <li><i class="fa fa-map-marker"></i> {{ profile.contact.location }}</li>
+        </ul>
+      </div>
+      <div class="mb-4">
+        <h4>Skills</h4>
+        <ul class="list-unstyled" *ngFor="let skill of profile.skills">
+          <li><strong>{{ skill.category }}:</strong> {{ skill.items.join(', ') }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-8 cards">
+      <!-- Education Section -->
+      <div class="mb-4">
+        <h3>Education</h3>
+        <div class="card mb-3" *ngFor="let edu of profile.education">
+          <div class="card-body">
+            <h5 class="card-title">{{ edu.degree }}</h5>
+            <p class="card-text">{{ edu.institution }}, {{ edu.year }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience Section -->
+      <div class="mb-4">
+        <h3>Experience</h3>
+        <div class="card mb-3" *ngFor="let exp of profile.experience">
+          <div class="card-body">
+            <h5 class="card-title">{{ exp.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ exp.company }}, {{ exp.dates }}</h6>
+            <p class="card-text">{{ exp.description }}</p>
+          </div>
+        </div>
+      </div>  
+
+      <!-- Certifications Section -->
+      <!-- <div class="mb-4">
+        <h3>Certifications</h3>
+        <div class="card mb-3" *ngFor="let cert of profile.certifications">
+          <div class="card-body">
+            <h5 class="card-title">{{ cert.name }}</h5>
+            <p class="card-text">Issued by: {{ cert.issuer }}</p>
+            <p class="card-text">Date: {{ cert.date }}</p>
+            <p class="card-text">Credential ID: {{ cert.credentialId }}</p>
+            <a [href]="cert.link" class="btn btn-primary" target="_blank">View Certificate</a>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

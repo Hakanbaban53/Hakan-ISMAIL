@@ -1,0 +1,56 @@
+.container {
+  padding-top: 20px;
+
+  .personal-information {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+
+    .text-center img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .list-unstyled li {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+  }
+
+  .cards {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+
+    .card-body {
+      border-radius: 6px;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      .text-muted {
+        color: var(--text-muted) !important;
+        transition: color 0.3s ease;
+      }
+      h4 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .card-title {
+        font-size: 1.25rem;
+      }
+
+      .card-subtitle {
+        font-size: 1rem;
+      }
+
+      .card-text {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

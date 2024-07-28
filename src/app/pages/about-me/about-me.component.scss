@@ -1,0 +1,55 @@
+.about-me {
+  hr {
+    border: 1px solid var(--border-color);
+  }
+  .text-center {
+    img {
+      min-width: 280px;
+      min-height: 332px;
+      object-fit: cover;
+      border-radius: 8px !important;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-repeat: no-repeat;
+    }
+  }
+  .paragraph {
+    color: var(--text-color);
+    transition: color 0.3s ease; /* Smooth transition */
+  }
+
+  .skills {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+
+    .skills-list {
+      max-height: 300px;
+      overflow-y: auto;
+
+      .list-group {
+        .list-group-item {
+          background-color: var(--background-color);
+          color: var(--text-color);
+          transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+        }
+
+      }
+    }
+  }
+  .interests {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+
+    .interests-list {
+      max-height: 300px;
+      overflow-y: auto;
+
+      .list-group {
+        .list-group-item {
+          background-color: var(--background-color);
+          color: var(--text-color);
+          transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+/* Define CSS Variables for Light and Dark Themes */
+:root {
+  /* Light Theme Colors */
+  --light-background-color: #ffffff;
+  --light-text-color: #000000;
+  --light-link-color: #007bff;
+  --light-border-color: #000000;
+  --light-card-border-color: #0000002d;
+  --light-navbar-background: #f8f8f8;
+  --light-navbar-text: #333;
+  --light-navbar-shadow: rgba(0, 0, 0, 0.1);
+  --light-text-muted: #212529bf;
+
+  /* Dark Theme Colors */
+  --dark-background-color: #121212;
+  --dark-text-color: #ffffff;
+  --dark-link-color: #bb86fc;
+  --dark-border-color: #ffffff;
+  --dark-card-border-color: #ffffff1f;
+  --dark-navbar-background: #333;
+  --dark-navbar-text: #fff;
+  --dark-navbar-shadow: rgba(255, 255, 255, 0.3);
+  --dark-text-muted: #ffffffbf;
+}
+
+/* Apply Theme Colors */
+body.light-theme {
+  --background-color: var(--light-background-color);
+  --text-color: var(--light-text-color);
+  --link-color: var(--light-link-color);
+  --border-color: var(--light-border-color);
+  --card-border-color: var(--light-card-border-color);
+  --navbar-background: var(--light-navbar-background);
+  --navbar-text: var(--light-navbar-text);
+  --navbar-shadow: var(--light-navbar-shadow);
+  --text-muted: var(--light-text-muted);
+}
+
+body.dark-theme {
+  --background-color: var(--dark-background-color);
+  --text-color: var(--dark-text-color);
+  --link-color: var(--dark-link-color);
+  --border-color: var(--dark-border-color);
+  --card-border-color: var(--dark-card-border-color);
+  --navbar-background: var(--dark-navbar-background);
+  --navbar-text: var(--dark-navbar-text);
+  --navbar-shadow: var(--dark-navbar-shadow);
+  --text-muted: var(--dark-text-muted);
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global Styles */
+body {
+  margin: 0 !important;
+  font-family: 'Inter', sans-serif !important;
+  background-color: var(--background-color) !important;
+  color: var(--text-color);
+  transition: background-color 0.4s ease, color 0.4s ease; /* Smooth transition */
+}
+

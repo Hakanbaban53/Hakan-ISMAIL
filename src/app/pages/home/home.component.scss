@@ -1,0 +1,74 @@
+.name-container {
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  .name {
+    font-size: 128px;
+    font-weight: bolder;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  .title {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+  
+  .more-about-me {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    border-radius: 12px;
+    padding: 10px 20px; /* Initial padding */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, padding 0.3s ease, width 0.3s ease; /* Smooth transition */
+    position: relative; /* Added for positioning child elements */
+    overflow: hidden; /* Ensures that the arrow doesn't overflow the button */
+    
+    &:hover {
+      background-color: var(--text-color);
+      color: var(--background-color);
+      padding-right: 40px; /* Increase padding to show arrow */
+    }
+  
+    .arrow-icon {
+      opacity: 0; /* Initial state: hidden */
+      transform: translateX(-20px); /* Initial position */
+      transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+      position: absolute; /* Positioned absolutely */
+      top: 50%; /* Center vertically */
+      right: 16px; /* Position relative to the button */
+      transform: translateY(-50%) translateX(-20px); /* Initial position */
+    }
+  
+    &:hover .arrow-icon {
+      opacity: 1; /* Make visible */
+      transform: translateY(-50%) translateX(0); /* Move into place */
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .name {
+      font-size: 80px;
+    }
+  
+    .title {
+      font-size: 16px;
+    }
+  
+    .more-about-me {
+      font-size: 14px;
+      padding: 8px 16px; /* Initial padding */
+    }
+    
+  }
+  
+  
+  
+  

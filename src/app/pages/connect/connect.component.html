@@ -1,0 +1,56 @@
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-12 text-center mb-4">
+        <h1>Connect with Me</h1>
+        <p>Follow me on social media or send me a message using the form below.</p>
+      </div>
+    </div>
+  
+    <div class="row justify-content-center mb-5">
+      <div class="col-2 text-center">
+        <a href="https://www.instagram.com/hakanbaban53/" target="_blank">
+          <i class="fab fa-instagram fa-3x"></i>
+        </a>
+      </div>
+      <div class="col-2 text-center">
+        <a href="https://www.linkedin.com/in/hakan-ismail-b632181a6/" target="_blank">
+          <i class="fab fa-linkedin fa-3x"></i>
+        </a>
+      </div>
+      <div class="col-2 text-center">
+        <a href="https://www.facebook.com/hakan.ismail.50" target="_blank">
+          <i class="fab fa-facebook fa-3x"></i>
+        </a>
+      </div>
+      <!-- Add more social icons as needed -->
+    </div>
+  
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+          <div class="form-group" [ngClass]="{'invalid': contactForm.get('from_name')!.invalid && contactForm.get('from_name')!.touched}">
+            <label for="from_name">Name:</label>
+            <input id="from_name" formControlName="from_name" class="form-control" />
+            <div *ngIf="contactForm.get('from_name')!.invalid && contactForm.get('from_name')!.touched" class="error-message">
+              Name is required.
+            </div>
+          </div>
+          <div class="form-group" [ngClass]="{'invalid': contactForm.get('from_email')!.invalid && contactForm.get('from_email')!.touched}">
+            <label for="from_email">Email:</label>
+            <input id="from_email" formControlName="from_email" class="form-control" />
+            <div *ngIf="contactForm.get('from_email')!.invalid && contactForm.get('from_email')!.touched" class="error-message">
+              Enter a valid email.
+            </div>
+          </div>
+          <div class="form-group" [ngClass]="{'invalid': contactForm.get('message')!.invalid && contactForm.get('message')!.touched}">
+            <label for="message">Message:</label>
+            <textarea id="message" formControlName="message" class="form-control"></textarea>
+            <div *ngIf="contactForm.get('message')!.invalid && contactForm.get('message')!.touched" class="error-message">
+              Message is required.
+            </div>
+          </div>
+          <button type="submit" class="submit-button" [disabled]="contactForm.invalid"><i class="fa-solid fa-paper-plane send-icon"></i>Send</button>
+        </form>
+      </div>
+    </div>
+  </div>  

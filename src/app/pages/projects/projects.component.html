@@ -1,0 +1,36 @@
+<div class="container mt-5 projects">
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h1>Projects</h1>
+      <p>Here are some of the projects I have worked on.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-4" *ngFor="let project of projects">
+      <div class="card">
+        <img
+          [src]="project.image || 'project.png'"
+          class="card-img-top"
+          [alt]="project.title"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ project.title }}</h5>
+          <p class="card-text">{{ project.description }}</p>
+          <p>
+            <strong>Technologies used:</strong>
+            {{ project.technologies.join(", ") }}
+          </p>
+          <hr />
+          <a [href]="project.link" class="btn view" target="_blank">
+            {{
+              project.platform === "closed"
+                ? "Visit Website"
+                : "View on " + (project.platform | titlecase)
+            }}
+            <i class="fa-solid fa-square-up-right arrow-icon"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
