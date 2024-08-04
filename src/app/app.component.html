@@ -1,28 +1,25 @@
 <nav
+  #navbar
   class="navbar sticky-top navbar-expand-md"
-  [ngClass]="
-    (theme$ | async) === 'dark-theme'
-      ? 'navbar-dark-theme'
-      : 'navbar-light-theme'
-  "
+  [ngClass]="(theme$ | async) === 'dark-theme' ? 'navbar-dark-theme' : 'navbar-light-theme'"
 >
   <button
     class="navbar-toggler"
     type="button"
     data-bs-toggle="collapse"
-    data-bs-target="#navbar"
-    aria-controls="navbar"
+    data-bs-target="#navbarNav"
+    aria-controls="navbarNav"
     aria-expanded="false"
     aria-label="Toggle navigation"
   >
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbar">
+  <div class="collapse navbar-collapse" id="navbarNav" (click)="$event.stopPropagation()">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <img
           [routerLink]="['/home']"
-          (click)="updateIndexCopy('/home')"
+          (click)="updateIndexCopy('/home'); closeNavbar()"
           [src]="(theme$ | async) === 'dark-theme' ? darkFavicon : lightFavicon"
           alt="Logo"
           class="logo"
@@ -32,7 +29,7 @@
         <a
           class="nav-link"
           [routerLink]="['/about-me']"
-          (click)="updateIndexCopy('/about-me')"
+          (click)="updateIndexCopy('/about-me'); closeNavbar()"
           routerLinkActive="active"
           >About Me</a
         >
@@ -41,7 +38,7 @@
         <a
           class="nav-link"
           [routerLink]="['/resume']"
-          (click)="updateIndexCopy('/resume')"
+          (click)="updateIndexCopy('/resume'); closeNavbar()"
           routerLinkActive="active"
           >Resume</a
         >
@@ -50,7 +47,7 @@
         <a
           class="nav-link"
           [routerLink]="['/projects']"
-          (click)="updateIndexCopy('/projects')"
+          (click)="updateIndexCopy('/projects'); closeNavbar()"
           routerLinkActive="active"
           >Projects</a
         >
@@ -59,7 +56,7 @@
         <a
           class="nav-link"
           [routerLink]="['/connect']"
-          (click)="updateIndexCopy('/connect')"
+          (click)="updateIndexCopy('/connect'); closeNavbar()"
           routerLinkActive="active"
           >Connect</a
         >
@@ -68,26 +65,14 @@
     <div class="icons">
       <a (click)="toggleTheme()">
         <i
-          [class]="
-            (theme$ | async) === 'dark-theme'
-              ? 'fa-solid fa-moon'
-              : 'fa-solid fa-sun'
-          "
+          [class]="(theme$ | async) === 'dark-theme' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"
           class="theme-icon"
         ></i>
       </a>
-      <a
-        href="https://github.com/Hakanbaban53"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="https://github.com/Hakanbaban53" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-github"></i>
       </a>
-      <a
-        href="https://gitlab.com/Hakanbaban53"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="https://gitlab.com/Hakanbaban53" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-gitlab"></i>
       </a>
     </div>
@@ -99,8 +84,8 @@
 </nav>
 
 <!-- Router Outlet -->
-<div [@routeAnimations]="animationState$ | async">
-  <router-outlet (activate)="prepareRoute($event)"></router-outlet>
+<div class="container">
+  <router-outlet></router-outlet>
 </div>
 <!-- Custom Context Menu -->
 <div id="custom-context-menu" class="custom-context-menu">

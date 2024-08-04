@@ -6,23 +6,19 @@ import {
   RouterModule,
   RouterOutlet,
 } from '@angular/router';
-import { slideInAnimation } from '../Animations/Animations';
 import { filter, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ScrollNavigationService } from './services/scroll-navigation.service';
-import { HammerModule } from '@angular/platform-browser';
 import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, CommonModule, HammerModule],
+  imports: [RouterOutlet, RouterModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [slideInAnimation],
 })
 export class AppComponent implements OnInit {
-  animationState$: Observable<string>;
   theme$: Observable<string>;
   darkFavicon = 'favicon_dark.svg';
   lightFavicon = 'favicon_light.svg';
@@ -48,20 +44,18 @@ export class AppComponent implements OnInit {
     private scrollNavigationService: ScrollNavigationService,
     private themeService: ThemeService
   ) {
-    this.animationState$ = this.scrollNavigationService.animationState$;
     this.theme$ = this.themeService.theme$;
   }
 
   ngOnInit() {
     this.setCurrentYear();
 
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      const targetIndex = this.scrollNavigationService.getIndex(event.urlAfterRedirects);
-      this.scrollNavigationService.updateIndex(event.urlAfterRedirects);
-      this.progress = 0; // Reset progress on navigation
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.scrollNavigationService.updateIndex(event.urlAfterRedirects);
+        this.progress = 0; // Reset progress on navigation
+      });
   }
 
   setCurrentYear() {
@@ -72,20 +66,32 @@ export class AppComponent implements OnInit {
     }
   }
 
-  prepareRoute(outlet: RouterOutlet) {
-    return (
-      outlet &&
-      outlet.activatedRouteData &&
-      outlet.activatedRouteData['animation']
-    );
-  }
-
   updateIndexCopy(route: string) {
     this.scrollNavigationService.updateIndex(route);
   }
 
   toggleTheme() {
     this.themeService.toggleTheme();
+  }
+
+  closeNavbar() {
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    if (navbarCollapse) {
+      navbarCollapse.classList.remove('show');
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const customContextMenu = document.getElementById('custom-context-menu');
+    if (customContextMenu) {
+      customContextMenu.classList.remove('show');
+    }
+
+    const clickedInsideNavbar = (event.target as HTMLElement).closest('.navbar-collapse');
+    if (!clickedInsideNavbar) {
+      this.closeNavbar();
+    }
   }
 
   @HostListener('document:contextmenu', ['$event'])
@@ -96,39 +102,32 @@ export class AppComponent implements OnInit {
       customContextMenu.style.top = `${event.clientY}px`;
       customContextMenu.style.left = `${event.clientX}px`;
       customContextMenu.classList.add('show');
-      customContextMenu.getBoundingClientRect();
     }
     return false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const customContextMenu = document.getElementById('custom-context-menu');
-    if (customContextMenu) {
-      customContextMenu.classList.remove('show');
-    }
   }
 
   @HostListener('window:wheel', ['$event'])
   onScroll(event: WheelEvent) {
     if (this.isScrollingEnabled && !this.isEventInScrollableElement(event)) {
-      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+      const delta =
+        Math.abs(event.deltaY) > Math.abs(event.deltaX)
+          ? event.deltaY
+          : event.deltaX;
 
       const scrollPosition = window.scrollY + window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
-  
-      // Check if we are at the top or bottom of the page
+
       const atBottom = scrollPosition >= documentHeight - this.SCROLL_THRESHOLD;
       const atTop = window.scrollY <= this.SCROLL_THRESHOLD;
 
       if (delta > 0 && atBottom) {
-        this.progress += 25; // Increment progress by 10 for each scroll down
+        this.progress += 25; // Increment progress for scroll down
         if (this.progress >= this.PROGRESS_THRESHOLD) {
           this.scrollNavigationService.navigateToNextPage();
           this.progress = 0; // Reset progress after navigation
         }
       } else if (delta < 0 && atTop) {
-        this.progress -= 25; // Decrement progress by 10 for each scroll up
+        this.progress -= 25; // Decrement progress for scroll up
         if (this.progress <= -this.PROGRESS_THRESHOLD) {
           this.scrollNavigationService.navigateToPreviousPage();
           this.progress = 0; // Reset progress after navigation
@@ -141,12 +140,22 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    const isInputField =
+      target.tagName === 'INPUT' ||
+      target.tagName === 'TEXTAREA' ||
+      target.isContentEditable;
+
+    if (isInputField) {
+      return; // Prevent navigation if focus is on a writable element
+    }
+
     if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
-        this.scrollNavigationService.navigateToNextPage();
-        this.progress = 0; // Reset progress after navigation
+      this.scrollNavigationService.navigateToNextPage();
+      this.progress = 0; // Reset progress after navigation
     } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-        this.scrollNavigationService.navigateToPreviousPage();
-        this.progress = 0; // Reset progress after navigation      
+      this.scrollNavigationService.navigateToPreviousPage();
+      this.progress = 0; // Reset progress after navigation
     }
   }
 
@@ -181,12 +190,11 @@ export class AppComponent implements OnInit {
     } else {
       // Vertical swipe
       if (Math.abs(deltaY) > this.SWIPE_THRESHOLD) {
-        
         const scrollPosition = window.scrollY + window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
 
-        // Check if we are at the top or bottom of the page
-        const atBottom = scrollPosition >= documentHeight - this.SCROLL_THRESHOLD;
+        const atBottom =
+          scrollPosition >= documentHeight - this.SCROLL_THRESHOLD;
         const atTop = window.scrollY <= this.SCROLL_THRESHOLD;
 
         if (deltaY < 0 && atBottom) {
@@ -212,7 +220,7 @@ export class AppComponent implements OnInit {
 
   private isEventInScrollableElement(event: Event): boolean {
     let target = event.target as HTMLElement | null;
-  
+
     while (target) {
       const overflow = window.getComputedStyle(target).overflow;
       if (overflow === 'auto' || overflow === 'scroll') {
@@ -220,7 +228,7 @@ export class AppComponent implements OnInit {
       }
       target = target.parentElement; // No type assertion needed here
     }
-  
+
     return false;
   }
 }

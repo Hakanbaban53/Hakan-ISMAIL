@@ -1,76 +1,140 @@
 .projects {
-    padding-top: 20px;
+  padding-top: 20px;
+  color: var(--text-color);
+  transition: color 0.3s ease; /* Smooth transition */
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    background-color: var(--background-color);
     color: var(--text-color);
-    transition: color 0.3s ease; /* Smooth transition */
+    border-color: var(--card-border-color);
+    transition: background-color 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease; /* Smooth transition */
+
+    .card-title {
+      font-size: 1.25rem;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+    }
+
+    .card-img-top {
+      height: 250px;
+      object-fit: contain;
+      background-color: white;
+    }
+  }
+
+  .btn {
+    margin-top: 10px;
+  }
+
+  hr {
+    margin: 0;
+  }
+
+  .view {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    border-radius: 12px;
+    padding: 10px 20px; /* Initial padding */
+    transition: background-color 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease, padding 0.3s ease, width 0.3s ease; /* Smooth transition */
+    position: relative; /* Added for positioning child elements */
+    overflow: hidden; /* Ensures that the arrow doesn't overflow the button */
+
+    &:hover {
+      background-color: var(--text-color);
+      color: var(--background-color);
+      padding-right: 40px; /* Increase padding to show arrow */
+    }
+
+    .arrow-icon {
+      opacity: 0; /* Initial state: hidden */
+      transform: translateX(-20px); /* Initial position */
+      transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+      position: absolute; /* Positioned absolutely */
+      top: 50%; /* Center vertically */
+      right: 16px; /* Position relative to the button */
+      transform: translateY(-50%) translateX(-20px); /* Initial position */
+    }
+
+    &:hover .arrow-icon {
+      opacity: 1; /* Make visible */
+      transform: translateY(-50%) translateX(0); /* Move into place */
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .projects {
+    padding-top: 15px; /* Reduce padding for smaller screens */
 
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
+      font-size: 2.2rem; /* Smaller heading size */
+      margin-bottom: 15px;
     }
-    
-    .card{
-      background-color: var(--background-color);
-      color: var(--text-color);
-      border-color: var(--card-border-color);
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
 
+    .card {
       .card-title {
-        font-size: 1.25rem;
+        font-size: 1.1rem; /* Smaller card title */
       }
-      
+
       .card-text {
-        font-size: 0.9rem;
-      }
-      
-      .card-img-top {
-        height: 250px;
-        object-fit: contain;
-        background-color: white;
-      }
-      
-    }
-    .btn {
-      margin-top: 10px;
-    }
-  
-    hr {
-      margin: 0;
-    }
-  
-    .view {
-      display: inline-block;
-      margin-top: 20px;
-      text-decoration: none;
-      font-size: 16px;
-      color: var(--text-color);
-      border: 2px solid var(--text-color);
-      border-radius: 12px;
-      padding: 10px 20px; /* Initial padding */
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, padding 0.3s ease, width 0.3s ease; /* Smooth transition */
-      position: relative; /* Added for positioning child elements */
-      overflow: hidden; /* Ensures that the arrow doesn't overflow the button */
-      
-      &:hover {
-        background-color: var(--text-color);
-        color: var(--background-color);
-        padding-right: 40px; /* Increase padding to show arrow */
-      }
-    
-      .arrow-icon {
-        opacity: 0; /* Initial state: hidden */
-        transform: translateX(-20px); /* Initial position */
-        transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
-        position: absolute; /* Positioned absolutely */
-        top: 50%; /* Center vertically */
-        right: 16px; /* Position relative to the button */
-        transform: translateY(-50%) translateX(-20px); /* Initial position */
-      }
-    
-      &:hover .arrow-icon {
-        opacity: 1; /* Make visible */
-        transform: translateY(-50%) translateX(0); /* Move into place */
+        font-size: 0.8rem; /* Smaller card text */
       }
     }
   }
-  
-  
+}
+
+@media (max-width: 320px) {
+  .projects {
+    padding-top: 10px; /* Reduce padding for smaller screens */
+
+    h1 {
+      font-size: 2rem; /* Smaller heading size */
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 0.9rem; /* Smaller paragraph text */
+    }
+
+    .card {
+      .card-title {
+        font-size: 1rem; /* Smaller card title */
+      }
+
+      .card-text {
+        font-size: 0.8rem; /* Smaller card text */
+      }
+
+      .card-img-top {
+        height: 200px; /* Smaller image height */
+      }
+    }
+
+    .btn {
+      margin-top: 5px; /* Reduce margin for buttons */
+    }
+
+    .view {
+      font-size: 14px; /* Smaller text size */
+      padding: 8px 16px; /* Adjust padding */
+      border-radius: 8px; /* Smaller border radius */
+
+      .arrow-icon {
+        right: 10px; /* Adjust position of the arrow icon */
+      }
+    }
+  }
+}

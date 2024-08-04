@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +8,12 @@ export class ScrollNavigationService {
 
   private currentRouteIndex = 0;
   private routes = ['/home', '/about-me', '/resume', '/projects', '/connect'];
-  public animationState$ = new BehaviorSubject<string>('isFade');
 
   constructor(private router: Router) { }
 
   navigateToNextPage() {
     if (this.currentRouteIndex < this.routes.length - 1) {
       this.currentRouteIndex++;
-      this.animationState$.next('isDown');
       this.router.navigate([this.routes[this.currentRouteIndex]]).then(() => {
         this.scrollToTop();
       });
@@ -26,7 +23,6 @@ export class ScrollNavigationService {
   navigateToPreviousPage() {
     if (this.currentRouteIndex > 0) {
       this.currentRouteIndex--;
-      this.animationState$.next('isUp');
       this.router.navigate([this.routes[this.currentRouteIndex]]).then(() => {
         this.scrollToBottom();
       });
@@ -36,7 +32,6 @@ export class ScrollNavigationService {
   navigateToNextHorizontalPage() {
     if (this.currentRouteIndex < this.routes.length - 1) {
       this.currentRouteIndex++;
-      this.animationState$.next('isRight');
       this.router.navigate([this.routes[this.currentRouteIndex]]).then(() => {
         this.scrollToTop();
       });
@@ -46,7 +41,6 @@ export class ScrollNavigationService {
   navigateToPreviousHorizontalPage() {
     if (this.currentRouteIndex > 0) {
       this.currentRouteIndex--;
-      this.animationState$.next('isLeft');
       this.router.navigate([this.routes[this.currentRouteIndex]]).then(() => {
         this.scrollToBottom();
       });
@@ -54,7 +48,6 @@ export class ScrollNavigationService {
   }
 
   updateIndex(route: string) {
-    this.animationState$.next('isFade');
     const routeIndex = this.routes.indexOf(route);
     this.currentRouteIndex = routeIndex;
   }

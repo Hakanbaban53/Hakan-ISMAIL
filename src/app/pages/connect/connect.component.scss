@@ -1,5 +1,10 @@
 .container {
   color: var(--text-color);
+
+  .icons {
+    justify-content: center;;
+  }
+
   .contact-form {
     max-width: 600px;
     margin: 0 auto;
@@ -74,8 +79,8 @@
       }
 
       &:hover:not(:disabled) {
-        background-color: var(--background-color);
-        color: var(--text-color);
+        background-color: var(--text-color);
+        color: var(--background-color);
         border: 2px solid var(--text-color);
         padding-right: 40px; /* Increase padding to show send-icon */
         cursor: pointer;
@@ -91,7 +96,7 @@
         transform: translateY(-50%) translateX(-20px); /* Initial position */
       }
     
-      &:hover .send-icon {
+      &:hover:not(:disabled) .send-icon {
         opacity: 1; /* Make visible */
         transform: translateY(-50%) translateX(0); /* Move into place */
       }
@@ -100,5 +105,64 @@
 
   a {
     color: var(--text-color);
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    .contact-form {
+      max-width: 100%; /* Full width for smaller screens */
+      padding: 15px; /* Reduce padding */
+      box-shadow: none; /* Remove box shadow */
+      border-radius: 0; /* Remove border radius */
+      border-width: 0; /* Remove border width */
+
+      .submit-button {
+        font-size: 14px; /* Reduce font size */
+        padding: 8px 16px; /* Adjust padding */
+        border-radius: 8px; /* Smaller border radius */
+
+        .send-icon {
+          right: 10px; /* Adjust position of the send icon */
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    .icons {
+      justify-content: space-around;
+    }
+    .contact-form {
+      padding: 10px; /* Further reduce padding for very small screens */
+
+      .form-group {
+        margin-bottom: 10px; /* Reduce margin between form groups */
+      }
+
+      label {
+        font-size: 14px; /* Reduce label font size */
+      }
+
+      .form-control {
+        padding: 8px; /* Reduce padding */
+      }
+
+      .error-message {
+        font-size: 12px; /* Smaller error message font size */
+      }
+
+      .submit-button {
+        font-size: 12px; /* Further reduce font size */
+        padding: 6px 12px; /* Reduce padding */
+        border-radius: 6px; /* Smaller border radius */
+        
+        .send-icon {
+          right: 8px; /* Adjust position of the send icon */
+        }
+      }
+    }
   }
 }
