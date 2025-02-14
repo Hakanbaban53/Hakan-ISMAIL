@@ -15,7 +15,7 @@ export class ProjectsComponent implements OnInit {
       title: 'RealFire Installer',
       repo: 'Hakanbaban53/RealFire-Installer',
       platform: 'github',
-      imagePath: 'assets/Preview_Images/home_page.png',
+      imagePath: 'assets/pages/home.png',
       technologies: ['Python', 'Shell', 'GitHub Actions']
     },
     {
