@@ -5,11 +5,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { environment } from '../../../environments/environment.development';
 
 @Component({
-  selector: 'app-connect',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './connect.component.html',
-  styleUrl: './connect.component.scss'
+    selector: 'app-connect',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './connect.component.html',
+    styleUrl: './connect.component.scss'
 })
 export class ConnectComponent {
   contactForm: FormGroup;
