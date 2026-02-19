@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { NavigationService } from '../../services/navigation.service';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-home',
-    imports: [RouterModule],
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss'
+  selector: 'app-home',
+  imports: [MatButtonModule, MatIconModule],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
-export class HomeComponent {}
+export class HomeComponent {
+  navigationService = inject(NavigationService);
+}

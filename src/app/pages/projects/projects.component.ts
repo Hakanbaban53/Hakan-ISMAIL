@@ -1,104 +1,101 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GitService } from '../../services/git.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { SafeUrl } from '@angular/platform-browser';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { forkJoin } from 'rxjs';
+
+interface Project {
+  title: string;
+  repo?: string;
+  platform: 'github' | 'closed';
+  image?: string | SafeUrl;
+  technologies: string[];
+  description?: string;
+  repoUrl?: string;
+  siteUrl?: string | null;
+  isFeatured?: boolean;
+}
 
 @Component({
-    selector: 'app-projects',
-    imports: [CommonModule],
-    templateUrl: './projects.component.html',
-    styleUrl: './projects.component.scss'
+  selector: 'app-projects',
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+  templateUrl: './projects.component.html',
+  styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent implements OnInit {
-  projects: any[] = [
-    {
-      title: 'RealFire Installer',
-      repo: 'Hakanbaban53/RealFire-Installer',
-      platform: 'github',
-      imagePath: 'assets/pages/home.png',
-      technologies: ['Python', 'Shell', 'GitHub Actions']
-    },
-    {
-      title: 'RealFire',
-      repo: 'Hakanbaban53/RealFire',
-      platform: 'github',
-      imagePath: 'assets/preview.png',
-      technologies: ['JavaScript', 'CSS']
-    },
-    {
-      title: 'Virtual CANDY',
-      repo: 'Hakanbaban53/Virtual-CANDY',
-      platform: 'github',
-      imagePath: 'assets/terminal_ui.gif',
-      technologies: ['OOP', 'Python', 'Shell', 'Github Actions']
-    },
-    {
-      title: 'Intern-001-BurcGer',
-      repo: 'Hakanbaban53/Intern-001-BurcGer',
-      platform: 'github',
-      imagePath: 'assets/preview.png',
-      technologies: ['HTML', 'SCSS', 'TypeScript', 'Angular', 'Firebase', 'Ionic']
-    },
-    {
-      title: 'Netger Avukat',
-      platform: 'closed',
-      imagePath: 'https://netger.net/avukat/logo.svg',
-      technologies: ['Special Technology', 'Confidential'],
-      description: 'Full-Stack web automation for lawyers',
-      link: 'https://netger.net/avukat/'
-    }
-  ];
+  private gitService = inject(GitService);
 
-  constructor(private gitService: GitService, private sanitizer: DomSanitizer) {}
+  isLoading = true;
+  zarestiaOrg = {
+    name: 'Zarestia',
+    logo: 'https://github.com/Zarestia-Dev.png',
+    description: 'Building intuitive, cross-platform apps.',
+    githubUrl: 'https://github.com/Zarestia-Dev',
+  };
 
-  ngOnInit(): void {
-    this.projects.forEach((project) => {
-      if (project.platform === 'github') {
-        this.loadGitHubProject(project);
-      } else if (project.platform === 'gitlab') {
-        this.loadGitLabProject(project);
-      } else if (project.platform === 'closed') {
-        this.sanitizeProjectImage(project);
-      }
+  personalInfo = {
+    name: 'Hakan İSMAİL',
+    logo: 'hakan-logo',
+    description: 'System Administrator & DevOps Engineer.',
+    githubUrl: 'https://github.com/Hakanbaban53',
+  };
+
+  personalProjects: Project[] = [];
+  zarestiaProjects: Project[] = [];
+
+  ngOnInit() {
+    this.loadAllProjects();
+  }
+
+  private loadAllProjects() {
+    this.isLoading = true;
+    forkJoin({
+      zarestiaOrg: this.gitService.getGitHubOrgDetails('Zarestia-Dev'),
+      zarestiaPinned: this.gitService.getPinnedRepos('Zarestia-Dev'),
+      personalPinned: this.gitService.getPinnedRepos('Hakanbaban53', 'user'),
+    }).subscribe({
+      next: (res) => {
+        // Map Zarestia Org Details
+        this.zarestiaOrg = {
+          name: res.zarestiaOrg.name,
+          logo: res.zarestiaOrg.avatar_url,
+          description: res.zarestiaOrg.description,
+          githubUrl: res.zarestiaOrg.html_url,
+        };
+
+        // Map Zarestia Projects
+        this.zarestiaProjects = (
+          res.zarestiaPinned?.data?.organization?.pinnedItems?.nodes || []
+        ).map((repo: any) => this.mapRepoToProject(repo));
+
+        // Map Personal Projects
+        this.personalProjects = (
+          res.personalPinned?.data?.user?.pinnedItems?.nodes || []
+        ).map((repo: any) => this.mapRepoToProject(repo));
+
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading projects:', err);
+        this.isLoading = false;
+      },
     });
   }
 
-  private loadGitHubProject(project: any) {
-    const [username, repo] = project.repo.split('/');
-    this.gitService.getGitHubRepoDetails(username, repo).subscribe((data) => {
-      project.description = data.description || 'No description available';
-      project.link = data.html_url;
-
-      if (project.imagePath) {
-        this.gitService
-          .getGitHubFileContent(username, repo, project.imagePath)
-          .subscribe((fileData) => {
-            project.image = fileData.download_url;
-          });
-      } else {
-        project.image = data.owner.avatar_url;
-      }
-    });
-  }
-
-  private loadGitLabProject(project: any) {
-    this.gitService.getGitLabRepoDetails(project.repo).subscribe((data) => {
-      project.description = data.description || 'No description available';
-      project.link = data.web_url;
-
-      if (project.imagePath) {
-        this.gitService
-          .getGitLabFileContent(project.repo, project.imagePath)
-          .subscribe((fileData) => {
-            project.image = fileData;
-          });
-      } else {
-        project.image = data.avatar_url;
-      }
-    });
-  }
-
-  private sanitizeProjectImage(project: any) {
-    project.image = this.sanitizer.bypassSecurityTrustUrl(project.imagePath);
+  private mapRepoToProject(repo: any): Project {
+    return {
+      title: repo.name,
+      repo: repo.url.split('github.com/')[1],
+      platform: 'github' as const,
+      description: repo.description,
+      repoUrl: repo.url,
+      siteUrl: repo.homepageUrl || null,
+      technologies: [repo.primaryLanguage?.name].filter((l) => l),
+      isFeatured: true,
+      image: repo.openGraphImageUrl,
+    };
   }
 }

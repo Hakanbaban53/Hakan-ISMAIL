@@ -1,55 +1,85 @@
 import { CommonModule } from '@angular/common';
-import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { environment } from '../../../environments/environment.development';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivityService, DevToArticle } from '../../services/activity.service';
 
 @Component({
-    selector: 'app-connect',
-    imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './connect.component.html',
-    styleUrl: './connect.component.scss'
+  selector: 'app-connect',
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+  ],
+  templateUrl: './connect.component.html',
+  styleUrl: './connect.component.scss',
 })
-export class ConnectComponent {
-  contactForm: FormGroup;
+export class ConnectComponent implements OnInit {
+  private activityService = inject(ActivityService);
 
-  constructor(private fb: FormBuilder) {
-    this.contactForm = this.fb.group({
-      from_name: ['', Validators.required],
-      from_email: ['', [Validators.required, Validators.email]],
-      message: ['', Validators.required]
+  isLoadingActivity = true;
+  socialLinks = [
+    {
+      name: 'LinkedIn',
+      url: 'https://www.linkedin.com/in/hakan-ismail-b632181a6/',
+      icon: 'linkedin',
+      color: '#0077b5',
+    },
+    {
+      name: 'Dev.to',
+      url: 'https://dev.to/hakanbaban53',
+      icon: 'devto',
+      color: '#000000',
+    },
+    {
+      name: 'Instagram',
+      url: 'https://www.instagram.com/hakanbaban53/',
+      icon: 'instagram',
+      color: '#e4405f',
+    },
+    {
+      name: 'GitHub',
+      url: 'https://github.com/Hakanbaban53',
+      icon: 'github',
+      color: '#333',
+    },
+  ];
+
+  feedItems: any[] = [];
+
+  ngOnInit() {
+    this.loadActivities();
+  }
+
+  loadActivities() {
+    this.isLoadingActivity = true;
+    this.activityService.getLatestArticles(2).subscribe({
+      next: (articles: DevToArticle[]) => {
+        const devToItems = articles.map((a) => ({
+          platform: 'Dev.to',
+          title: a.title,
+          content: a.description,
+          url: a.url,
+          date: new Date(a.published_at).toLocaleDateString(),
+          icon: 'article',
+          image: a.social_image || a.cover_image,
+        }));
+
+        this.feedItems = devToItems;
+        this.isLoadingActivity = false;
+      },
+      error: () => {
+        this.isLoadingActivity = false;
+        // Fallback or just empty
+      },
     });
   }
 
-  onSubmit() {
-    if (this.contactForm.invalid) {
-      this.markFormGroupTouched(this.contactForm);
-      return;
-    }
-
-    const formData = this.contactForm.value;
-    const templateParams = {
-      to_name: 'Hakan İSMAİL',
-      from_name: formData.from_name,
-      from_email: formData.from_email,
-      message: formData.message
-    };
-
-    emailjs.send(environment.emailjs.serviceID, environment.emailjs.templateID, templateParams, environment.emailjs.userID)
-      .then((response: EmailJSResponseStatus) => {
-        console.log('SUCCESS!', response.status, response.text);
-        alert('Your message has been sent successfully!');
-        this.contactForm.reset(); // Reset the form after successful submission
-      }, (err) => {
-        console.error('FAILED...', err);
-        alert('There was an error sending your message. Please try again later.');
-      });
-  }
-
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      control?.markAsTouched();
-    });
+  sendEmail() {
+    window.location.href = 'mailto:hakanismail53@gmail.com';
   }
 }

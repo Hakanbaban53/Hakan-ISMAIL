@@ -1,36 +1,146 @@
-<div class="container mt-5 projects">
-  <div class="row">
-    <div class="col-12 text-center mb-4">
-      <h1>Projects</h1>
-      <p>Here are some of the projects I have worked on.</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 mb-4" *ngFor="let project of projects">
-      <div class="card">
-        <img
-          [src]="project.image || 'project.png'"
-          class="card-img-top"
-          [alt]="project.title"
-        />
-        <div class="card-body">
-          <h5 class="card-title">{{ project.title }}</h5>
-          <p class="card-text">{{ project.description }}</p>
-          <p>
-            <strong>Technologies used:</strong>
-            {{ project.technologies.join(", ") }}
-          </p>
-          <hr />
-          <a [href]="project.link" class="btn view" target="_blank">
-            {{
-              project.platform === "closed"
-                ? "Visit Website"
-                : "View on " + (project.platform | titlecase)
-            }}
-            <i class="fa-solid fa-square-up-right arrow-icon"></i>
-          </a>
-        </div>
+<div class="projects-container">
+  <!-- Zarestia Organization Card -->
+  <mat-card class="org-section animate-fade-in-up">
+    <mat-card-header class="header-content">
+      <div class="header-left">
+        <a [href]="zarestiaOrg.githubUrl" target="_blank" class="org-link">
+          <div class="org-logo-wrapper">
+            <img [src]="zarestiaOrg.logo" class="org-logo" alt="Zarestia Logo" />
+            <div class="status-badge" [class.loading]="isLoading" matTooltip="Organization Projects">
+              <mat-icon>{{ isLoading ? 'sync' : 'verified' }}</mat-icon>
+            </div>
+          </div>
+        </a>
       </div>
-    </div>
-  </div>
+      <div class="header-right">
+        <a [href]="zarestiaOrg.githubUrl" target="_blank" class="org-title-link">
+          <h1 class="display-title">{{ zarestiaOrg.name }}</h1>
+          <mat-icon svgIcon="github"></mat-icon>
+        </a>
+        <p class="section-desc">{{ zarestiaOrg.description }}</p>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content class="grid-container">
+      @if (isLoading) {
+        <div class="loading-state">
+          <mat-icon class="pulse-icon">sync</mat-icon>
+          <p>Fetching projects from GitHub...</p>
+        </div>
+      } @else {
+        <div class="project-grid">
+          @for (p of zarestiaProjects; track p; let i = $index) {
+            <mat-card class="project-card animate-fade-in-up" [style.animation-delay]="(i * 0.1) + 's'">
+              <div class="featured-indicator" *ngIf="p.isFeatured">
+                <mat-icon>auto_awesome</mat-icon>
+              </div>
+              <div class="thumbnail-wrapper">
+                <img mat-card-image [src]="p.image || 'assets/project-placeholder.png'" class="thumbnail" loading="lazy" />
+              </div>
+              <mat-card-header>
+                <mat-card-title>{{ p.title }}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p class="summary">{{ p.description }}</p>
+                <div class="tech-tags">
+                  @for (t of p.technologies; track t) { 
+                    <span class="tag">{{ t }}</span> 
+                  }
+                </div>
+              </mat-card-content>
+              <mat-card-actions class="dual-actions">
+                @if (p.siteUrl) {
+                  <a mat-flat-button color="primary" [href]="p.siteUrl" target="_blank" class="action-btn">
+                    <mat-icon>public</mat-icon>
+                    Website
+                  </a>
+                  <a mat-stroked-button [href]="p.repoUrl" target="_blank" class="action-btn">
+                    <mat-icon svgIcon="github"></mat-icon>
+                    Source
+                  </a>
+                } @else {
+                  <a mat-flat-button [href]="p.repoUrl" target="_blank" class="action-btn">
+                    <mat-icon svgIcon="github"></mat-icon>
+                    Source
+                  </a>
+                }
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Personal Projects Card -->
+  <mat-card class="org-section animate-fade-in-up delay-1">
+    <mat-card-header class="header-content">
+      <div class="header-left">
+        <a [href]="personalInfo.githubUrl" target="_blank" class="org-link">
+          <div class="org-logo-wrapper profile">
+            <div class="avatar-icon">
+              <mat-icon [svgIcon]="personalInfo.logo"></mat-icon>
+            </div>
+            <div class="status-badge" matTooltip="Personal Projects">
+              <mat-icon>person</mat-icon>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="header-right">
+        <a [href]="personalInfo.githubUrl" target="_blank" class="org-title-link">
+          <h1 class="display-title">{{ personalInfo.name }}</h1>
+          <mat-icon svgIcon="github"></mat-icon>
+        </a>
+        <p class="section-desc">{{ personalInfo.description }}</p>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content class="grid-container">
+      @if (isLoading) {
+        <div class="loading-state">
+          <mat-icon class="pulse-icon">sync</mat-icon>
+          <p>Fetching projects from GitHub...</p>
+        </div>
+      } @else {
+        <div class="project-grid">
+          @for (p of personalProjects; track p; let i = $index) {
+            <mat-card class="project-card animate-fade-in-up" [style.animation-delay]="(i * 0.1 + 0.3) + 's'">
+              <div class="thumbnail-wrapper">
+                <img mat-card-image [src]="p.image || 'assets/project-placeholder.png'" class="thumbnail" loading="lazy" />
+              </div>
+              <mat-card-header>
+                <mat-card-title>{{ p.title }}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p class="summary">{{ p.description }}</p>
+                <div class="tech-tags">
+                  @for (t of p.technologies; track t) { 
+                    <span class="tag">{{ t }}</span> 
+                  }
+                </div>
+              </mat-card-content>
+              <mat-card-actions class="dual-actions">
+                @if (p.siteUrl) {
+                  <a mat-flat-button color="primary" [href]="p.siteUrl" target="_blank" class="action-btn">
+                    <mat-icon>public</mat-icon>
+                    Website
+                  </a>
+                  <a mat-stroked-button [href]="p.repoUrl" target="_blank" class="action-btn">
+                    <mat-icon svgIcon="github"></mat-icon>
+                    Source
+                  </a>
+                } @else {
+                  <a mat-flat-button [href]="p.repoUrl" target="_blank" class="action-btn">
+                    <mat-icon svgIcon="github"></mat-icon>
+                    Source
+                  </a>
+                }
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
 </div>

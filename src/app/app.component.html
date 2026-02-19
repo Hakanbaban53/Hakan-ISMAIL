@@ -1,93 +1,20 @@
-<nav
-  #navbar
-  class="navbar sticky-top navbar-expand-md"
-  [ngClass]="(theme$ | async) === 'dark-theme' ? 'navbar-dark-theme' : 'navbar-light-theme'"
->
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-bs-toggle="collapse"
-    data-bs-target="#navbarNav"
-    aria-controls="navbarNav"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav" (click)="$event.stopPropagation()">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <img
-          [routerLink]="['/home']"
-          (click)="updateIndexCopy('/home'); closeNavbar()"
-          [src]="(theme$ | async) === 'dark-theme' ? darkFavicon : lightFavicon"
-          alt="Logo"
-          class="logo"
-        />
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [routerLink]="['/about-me']"
-          (click)="updateIndexCopy('/about-me'); closeNavbar()"
-          routerLinkActive="active"
-          >About Me</a
-        >
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [routerLink]="['/resume']"
-          (click)="updateIndexCopy('/resume'); closeNavbar()"
-          routerLinkActive="active"
-          >Resume</a
-        >
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [routerLink]="['/projects']"
-          (click)="updateIndexCopy('/projects'); closeNavbar()"
-          routerLinkActive="active"
-          >Projects</a
-        >
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [routerLink]="['/connect']"
-          (click)="updateIndexCopy('/connect'); closeNavbar()"
-          routerLinkActive="active"
-          >Connect</a
-        >
-      </li>
-    </ul>
-    <div class="icons">
-      <a (click)="toggleTheme()">
-        <i
-          [class]="(theme$ | async) === 'dark-theme' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"
-          class="theme-icon"
-        ></i>
-      </a>
-      <a href="https://github.com/Hakanbaban53" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://gitlab.com/Hakanbaban53" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-gitlab"></i>
-      </a>
-    </div>
-  </div>
-  <!-- Progress Bar -->
-  <div class="progress-container">
-    <div class="progress-bar" [style.width.%]="progress"></div>
-  </div>
-</nav>
 
-<!-- Router Outlet -->
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
-<!-- Custom Context Menu -->
-<div id="custom-context-menu" class="custom-context-menu">
-  <span id="current-year"></span> - Hakanbaban53
+<div class="app-container">
+  <app-navbar></app-navbar>
+  <div class="main-content">
+    @switch (navigationService.currentPage()) {
+      @case ('home') {
+        <app-home></app-home>
+      }
+      @case ('resume') {
+        <app-resume></app-resume>
+      }
+      @case ('projects') {
+        <app-projects></app-projects>
+      }
+      @case ('connect') {
+        <app-connect></app-connect>
+      }
+    }
+  </div>
 </div>

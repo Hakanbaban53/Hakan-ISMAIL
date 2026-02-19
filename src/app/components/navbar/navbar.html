@@ -1,0 +1,22 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="navbar-container">
+    <a class="logo" (click)="setPage('home')" tabindex="0">
+      <mat-icon svgIcon="hakan-logo" class="logo-img"></mat-icon>
+      <span class="logo-text">Hakan İSMAİL</span>
+    </a>
+
+    <button class="mobile-menu-btn" mat-icon-button (click)="toggleMobileMenu()">
+      <mat-icon>{{ isMobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+
+    <div class="nav-links" [class.open]="isMobileMenuOpen">
+      @for (link of navLinks; track link.label) {
+        <button mat-button [class.active]="navigationService.currentPage() === link.page"
+          (click)="setPage(link.page)">
+          {{ link.label }}
+        </button>
+      }
+      <app-theme-toggle></app-theme-toggle>
+    </div>
+  </div>
+</nav>

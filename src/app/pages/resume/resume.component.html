@@ -1,67 +1,147 @@
-<div class="container mt-5">
-  <div class="row">
-    <!-- Personal Information -->
-    <div class="col-md-4 personal-information">
-      <div class="text-center">
-        <img [src]="profile.imagePath" class="img-fluid rounded-circle mb-3" alt="{{ profile.name }}">
+<div class="resume">
+  <div class="resume-grid">
+    <!-- Sidebar -->
+    <aside class="sidebar animate-fade-in-up">
+      <div class="profile-header">
+          <img [src]="profile.imagePath" class="profile-image" alt="{{ profile.name }}">
         <h2>{{ profile.name }}</h2>
-        <p>{{ profile.title }}</p>
+        <p class="subtitle">{{ profile.title }}</p>
       </div>
-      <hr>
-      <div class="mb-4">
-        <h4>Contact Information</h4>
-        <ul class="list-unstyled">
-          <li><i class="fa fa-envelope"></i> {{ profile.contact.email }}</li>
-          <li><i class="fa fa-phone"></i> {{ profile.contact.phone }}</li>
-          <li><i class="fa fa-map-marker"></i> {{ profile.contact.location }}</li>
-        </ul>
-      </div>
-      <div class="mb-4">
-        <h4>Skills</h4>
-        <ul class="list-unstyled" *ngFor="let skill of profile.skills">
-          <li><strong>{{ skill.category }}:</strong> {{ skill.items.join(', ') }}</li>
-        </ul>
-      </div>
-    </div>
+      
+      <mat-card class="info-card animate-fade-in-up animate-delay-1">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>contact_page</mat-icon>
+          <mat-card-title>Contact</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list class="premium-list">
+            <mat-list-item>
+              <mat-icon matListItemIcon>email</mat-icon>
+              {{ profile.contact.email }}
+            </mat-list-item>
+            <!-- <mat-list-item>
+              <mat-icon matListItemIcon>phone</mat-icon>
+              {{ profile.contact.phone }}
+            </mat-list-item> -->
+            <mat-list-item>
+              <mat-icon matListItemIcon>location_on</mat-icon>
+              {{ profile.contact.location }}
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListItemIcon>link</mat-icon>
+              {{ profile.contact.linkedin }}
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card animate-fade-in-up animate-delay-2">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>build</mat-icon>
+          <mat-card-title>Skills</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @for (skill of profile.skills; track skill) {
+            <div class="skill-category">
+              <span class="category-name">{{ skill.category }}</span>
+              <p class="category-items">{{ skill.items.join(', ') }}</p>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </aside>
 
     <!-- Main Content -->
-    <div class="col-md-8 cards">
-      <!-- Education Section -->
-      <div class="mb-4">
-        <h3>Education</h3>
-        <div class="card mb-3" *ngFor="let edu of profile.education">
-          <div class="card-body">
-            <h5 class="card-title">{{ edu.degree }}</h5>
-            <p class="card-text">{{ edu.institution }}, {{ edu.year }}</p>
-          </div>
-        </div>
-      </div>
+    <main class="main-content">
+      <!-- Consolidated Bio & Interests -->
+      <section class="resume-section animate-fade-in-up">
+        <h3 class="section-title">
+          <mat-icon>auto_stories</mat-icon>
+          Personal
+        </h3>
+        <mat-accordion class="premium-accordion">
+          <mat-expansion-panel class="resume-card premium-card">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>person_outline</mat-icon>
+                Biography
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-content">
+              @for (paragraph of profile.aboutMe; track paragraph) {
+                <p class="description">{{ paragraph }}</p>
+              }
+            </div>
+          </mat-expansion-panel>
 
-      <!-- Experience Section -->
-      <div class="mb-4">
-        <h3>Experience</h3>
-        <div class="card mb-3" *ngFor="let exp of profile.experience">
-          <div class="card-body">
-            <h5 class="card-title">{{ exp.title }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ exp.company }}, {{ exp.dates }}</h6>
-            <p class="card-text">{{ exp.description }}</p>
-          </div>
-        </div>
-      </div>  
+          <mat-expansion-panel class="resume-card premium-card">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>favorite_border</mat-icon>
+                Interests
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-content">
+              <p class="description">{{ profile.interests }}</p>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </section>
 
-      <!-- Certifications Section -->
-      <!-- <div class="mb-4">
-        <h3>Certifications</h3>
-        <div class="card mb-3" *ngFor="let cert of profile.certifications">
-          <div class="card-body">
-            <h5 class="card-title">{{ cert.name }}</h5>
-            <p class="card-text">Issued by: {{ cert.issuer }}</p>
-            <p class="card-text">Date: {{ cert.date }}</p>
-            <p class="card-text">Credential ID: {{ cert.credentialId }}</p>
-            <a [href]="cert.link" class="btn btn-primary" target="_blank">View Certificate</a>
-          </div>
+      <section class="resume-section animate-fade-in-up animate-delay-1">
+        <h3 class="section-title">
+          <mat-icon>person</mat-icon>
+          Professional Summary
+        </h3>
+        <mat-card class="resume-card premium-card">
+          <mat-card-content>
+            <p class="description summary-text">{{ profile.summary }}</p>
+          </mat-card-content>
+        </mat-card>
+      </section>
+
+      <section class="resume-section animate-fade-in-up animate-delay-2">
+        <h3 class="section-title">
+          <mat-icon>school</mat-icon>
+          Education
+        </h3>
+        <div class="card-stack">
+          @for (edu of profile.education; track edu) {
+            <mat-card class="resume-card premium-card">
+              <mat-card-header>
+                <mat-card-title>{{ edu.degree }}</mat-card-title>
+                <mat-card-subtitle>{{ edu.institution }}, {{ edu.year }}</mat-card-subtitle>
+              </mat-card-header>
+              @if (edu.thesis) {
+                <mat-card-content>
+                  <p class="description"><strong>Thesis:</strong> {{ edu.thesis }}</p>
+                </mat-card-content>
+              }
+            </mat-card>
+          }
         </div>
-      </div> -->
-    </div>
+      </section>
+
+      <section class="resume-section animate-fade-in-up animate-delay-2">
+        <h3 class="section-title">
+          <mat-icon>work</mat-icon>
+          Experience
+        </h3>
+        <div class="card-stack">
+          @for (exp of profile.experience; track exp) {
+            <mat-card class="resume-card premium-card">
+              <mat-card-header>
+                <mat-card-title>{{ exp.title }}</mat-card-title>
+                <mat-card-subtitle>{{ exp.company }}</mat-card-subtitle>
+                <div class="date-badge">{{ exp.dates }}</div>
+              </mat-card-header>
+              <mat-card-content>
+                <p class="description">{{ exp.description }}</p>
+              </mat-card-content>
+            </mat-card>
+          }
+        </div>
+      </section>
+    </main>
   </div>
 </div>

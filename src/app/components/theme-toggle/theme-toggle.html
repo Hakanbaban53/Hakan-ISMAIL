@@ -1,0 +1,25 @@
+<div class="theme-switch" role="group" aria-label="Theme selection">
+  <div class="switch-indicator"
+       [class.light]="getCurrentTheme() === 'light'"
+       [class.system]="getCurrentTheme() === 'system'"
+       [class.dark]="getCurrentTheme() === 'dark'">
+  </div>
+
+  <button class="theme-btn" (click)="setTheme('light')" 
+          [class.active]="getCurrentTheme() === 'light'"
+          title="Light Theme" aria-label="Light Theme">
+    <mat-icon>light_mode</mat-icon>
+  </button>
+  
+  <button class="theme-btn" (click)="setTheme('system')" 
+          [class.active]="getCurrentTheme() === 'system'"
+          title="System Theme" aria-label="System Theme">
+    <mat-icon>brightness_auto</mat-icon>
+  </button>
+  
+  <button class="theme-btn" (click)="setTheme('dark')" 
+          [class.active]="getCurrentTheme() === 'dark'"
+          title="Dark Theme" aria-label="Dark Theme">
+    <mat-icon>dark_mode</mat-icon>
+  </button>
+</div>
