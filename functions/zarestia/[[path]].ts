@@ -5,7 +5,7 @@ export const onRequest = async (context: any) => {
   // For now, we proxy anything under /zarestia/rclone-manager/ to that specific project.
 
   if (url.pathname.startsWith('/zarestia/rclone-manager/')) {
-    const proxyUrl = `https://rclone-manager-website.pages.dev${url.pathname}${url.search}`;
+    const proxyUrl = `https://rclone-manager.pages.dev${url.pathname}${url.search}`;
     return fetch(proxyUrl, context.request);
   }
 
