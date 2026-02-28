@@ -1,4 +1,4 @@
-<div class="projects-container">
+<div class="page-container">
   <!-- Zarestia Organization Card -->
   <mat-card class="org-section animate-fade-in-up">
     <mat-card-header class="header-content">
@@ -23,51 +23,51 @@
 
     <mat-card-content class="grid-container">
       @if (isLoading) {
-        <div class="loading-state">
-          <mat-icon class="pulse-icon">sync</mat-icon>
-          <p>Fetching projects from GitHub...</p>
-        </div>
+      <div class="loading-state">
+        <mat-icon class="pulse-icon">sync</mat-icon>
+        <p>Fetching projects from GitHub...</p>
+      </div>
       } @else {
-        <div class="project-grid">
-          @for (p of zarestiaProjects; track p; let i = $index) {
-            <mat-card class="project-card animate-fade-in-up" [style.animation-delay]="(i * 0.1) + 's'">
-              <div class="featured-indicator" *ngIf="p.isFeatured">
-                <mat-icon>auto_awesome</mat-icon>
-              </div>
-              <div class="thumbnail-wrapper">
-                <img mat-card-image [src]="p.image || 'assets/project-placeholder.png'" class="thumbnail" loading="lazy" />
-              </div>
-              <mat-card-header>
-                <mat-card-title>{{ p.title }}</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <p class="summary">{{ p.description }}</p>
-                <div class="tech-tags">
-                  @for (t of p.technologies; track t) { 
-                    <span class="tag">{{ t }}</span> 
-                  }
-                </div>
-              </mat-card-content>
-              <mat-card-actions class="dual-actions">
-                @if (p.siteUrl) {
-                  <a mat-flat-button color="primary" [href]="p.siteUrl" target="_blank" class="action-btn">
-                    <mat-icon>public</mat-icon>
-                    Website
-                  </a>
-                  <a mat-stroked-button [href]="p.repoUrl" target="_blank" class="action-btn">
-                    <mat-icon svgIcon="github"></mat-icon>
-                    Source
-                  </a>
-                } @else {
-                  <a mat-flat-button [href]="p.repoUrl" target="_blank" class="action-btn">
-                    <mat-icon svgIcon="github"></mat-icon>
-                    Source
-                  </a>
-                }
-              </mat-card-actions>
-            </mat-card>
-          }
-        </div>
+      <div class="project-grid">
+        @for (p of zarestiaProjects; track p; let i = $index) {
+        <mat-card class="project-card animate-fade-in-up" [style.animation-delay]="(i * 0.1) + 's'">
+          <div class="featured-indicator" *ngIf="p.isFeatured">
+            <mat-icon>auto_awesome</mat-icon>
+          </div>
+          <div class="thumbnail-wrapper">
+            <img mat-card-image [src]="p.image || 'assets/project-placeholder.png'" class="thumbnail" loading="lazy" />
+          </div>
+          <mat-card-header>
+            <mat-card-title>{{ p.title }}</mat-card-title>
+            <div class="tech-tags">
+              @for (t of p.technologies; track t) {
+              <span class="tag">{{ t }}</span>
+              }
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            {{ p.description }}
+          </mat-card-content>
+          <mat-card-actions>
+            @if (p.siteUrl) {
+            <a mat-flat-button [href]="p.siteUrl" target="_blank" class="action-btn">
+              <mat-icon>public</mat-icon>
+              Website
+            </a>
+            <a mat-stroked-button [href]="p.repoUrl" target="_blank" class="action-btn">
+              <mat-icon svgIcon="github"></mat-icon>
+              Source
+            </a>
+            } @else {
+            <a mat-flat-button [href]="p.repoUrl" target="_blank" class="action-btn">
+              <mat-icon svgIcon="github"></mat-icon>
+              Source
+            </a>
+            }
+          </mat-card-actions>
+        </mat-card>
+        }
+      </div>
       }
     </mat-card-content>
   </mat-card>
@@ -98,48 +98,48 @@
 
     <mat-card-content class="grid-container">
       @if (isLoading) {
-        <div class="loading-state">
-          <mat-icon class="pulse-icon">sync</mat-icon>
-          <p>Fetching projects from GitHub...</p>
-        </div>
+      <div class="loading-state">
+        <mat-icon class="pulse-icon">sync</mat-icon>
+        <p>Fetching projects from GitHub...</p>
+      </div>
       } @else {
-        <div class="project-grid">
-          @for (p of personalProjects; track p; let i = $index) {
-            <mat-card class="project-card animate-fade-in-up" [style.animation-delay]="(i * 0.1 + 0.3) + 's'">
-              <div class="thumbnail-wrapper">
-                <img mat-card-image [src]="p.image || 'assets/project-placeholder.png'" class="thumbnail" loading="lazy" />
-              </div>
-              <mat-card-header>
-                <mat-card-title>{{ p.title }}</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <p class="summary">{{ p.description }}</p>
-                <div class="tech-tags">
-                  @for (t of p.technologies; track t) { 
-                    <span class="tag">{{ t }}</span> 
-                  }
-                </div>
-              </mat-card-content>
-              <mat-card-actions class="dual-actions">
-                @if (p.siteUrl) {
-                  <a mat-flat-button color="primary" [href]="p.siteUrl" target="_blank" class="action-btn">
-                    <mat-icon>public</mat-icon>
-                    Website
-                  </a>
-                  <a mat-stroked-button [href]="p.repoUrl" target="_blank" class="action-btn">
-                    <mat-icon svgIcon="github"></mat-icon>
-                    Source
-                  </a>
-                } @else {
-                  <a mat-flat-button [href]="p.repoUrl" target="_blank" class="action-btn">
-                    <mat-icon svgIcon="github"></mat-icon>
-                    Source
-                  </a>
-                }
-              </mat-card-actions>
-            </mat-card>
-          }
-        </div>
+      <div class="project-grid">
+        @for (p of personalProjects; track p; let i = $index) {
+        <mat-card class="project-card animate-fade-in-up" [style.animation-delay]="(i * 0.1 + 0.3) + 's'">
+          <div class="thumbnail-wrapper">
+            <img mat-card-image [src]="p.image || 'assets/project-placeholder.png'" class="thumbnail" loading="lazy" />
+          </div>
+          <mat-card-header>
+            <mat-card-title>{{ p.title }}</mat-card-title>
+            <div class="tech-tags">
+              @for (t of p.technologies; track t) {
+              <span class="tag">{{ t }}</span>
+              }
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            {{ p.description }}
+          </mat-card-content>
+          <mat-card-actions>
+            @if (p.siteUrl) {
+            <a mat-flat-button [href]="p.siteUrl" target="_blank" class="action-btn">
+              <mat-icon>public</mat-icon>
+              Website
+            </a>
+            <a mat-stroked-button [href]="p.repoUrl" target="_blank" class="action-btn">
+              <mat-icon svgIcon="github"></mat-icon>
+              Source
+            </a>
+            } @else {
+            <a mat-flat-button [href]="p.repoUrl" target="_blank" class="action-btn">
+              <mat-icon svgIcon="github"></mat-icon>
+              Source
+            </a>
+            }
+          </mat-card-actions>
+        </mat-card>
+        }
+      </div>
       }
     </mat-card-content>
   </mat-card>

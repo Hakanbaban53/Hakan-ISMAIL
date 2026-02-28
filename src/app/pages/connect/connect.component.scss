@@ -1,208 +1,105 @@
 @use "../../../animations" as *;
 
-.connect {
-  .connect-header {
-    text-align: center;
-    margin-bottom: var(--space-2xl);
+.connect-header {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
 
-    .section-title {
-      font-size: var(--font-size-3xl);
-      font-weight: 800;
-      margin-bottom: var(--space-xs);
-    }
-    .section-description {
-      font-size: var(--font-size-lg);
-      font-weight: 500;
-    }
-  }
-
-  .social-icons {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-xl);
-    margin-bottom: var(--space-2xl);
-
-    .social-btn {
-      width: 64px;
-      height: 64px;
-      background: var(--card-bg-color);
-      box-shadow: var(--shadow-gnome);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      color: var(--window-fg-color);
-
-      &:hover {
-        background: var(--primary-color);
-        color: white;
-        box-shadow: 0 10px 25px rgba(var(--primary-color-rgb), 0.3);
-      }
-    }
-  }
-
-  .connect-grid {
-    display: grid;
-    align-items: start;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--space-2xl);
-    max-width: 1200px;
-    margin: 0 auto;
-
-    @media (max-width: 991px) {
-      grid-template-columns: 1fr;
-      gap: var(--space-xl);
-    }
-  }
-
-  .grid-title {
-    font-size: var(--font-size-2xl);
+  .section-title {
+    font-size: var(--font-size-3xl);
     font-weight: 800;
-    margin-bottom: var(--space-lg);
-    color: var(--window-fg-color);
+    margin-bottom: var(--space-xs);
+  }
+  .section-description {
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+  }
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+
+  .social-btn {
+    width: 64px;
+    height: 64px;
+    background: var(--card-bg-color);
+    box-shadow: var(--shadow-gnome);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    justify-content: center;
+    font-size: 24px;
+    color: var(--window-fg-color);
 
-    &::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--card-shade-color);
+    &:hover {
+      background: var(--primary-color);
+      color: white;
+      box-shadow: 0 10px 25px rgba(var(--primary-color-rgb), 0.3);
     }
   }
+}
 
-  .premium-card {
+.connect-grid {
+  display: grid;
+  align-items: start;
+  grid-template-columns: 1fr 1.5fr;
+  gap: var(--space-2xl);
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 991px) {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+}
+
+.grid-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  margin-bottom: var(--space-lg);
+  color: var(--window-fg-color);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--card-shade-color);
+  }
+}
+
+.feed-section {
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2xl);
     background: var(--card-bg-color);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-gnome);
-    height: 100%;
-    overflow: hidden;
-    transition: var(--transition-standard);
-
-    mat-card-header {
-      mat-icon[mat-card-avatar] {
-        color: var(--primary-color);
-        background: rgba(var(--primary-color-rgb), 0.1);
-        padding: var(--space-xs);
-        border-radius: var(--radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      mat-card-title {
-        font-size: var(--font-size-lg);
-        font-weight: 700;
-        color: var(--window-fg-color);
-      }
-
-      mat-card-subtitle {
-        color: var(--primary-color);
-        font-weight: 600;
-      }
-    }
-
-    mat-card-content {
-      padding: 0 var(--space-lg) var(--space-lg);
-      flex: 1;
-
-      .card-text,
-      .item-title {
-        line-height: 1.6;
-        color: var(--window-fg-color);
-        opacity: 0.85;
-        font-size: var(--font-size-md);
-      }
-
-      .item-platform {
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        font-size: var(--font-size-xs);
-        color: var(--primary-color);
-        margin-bottom: var(--space-xs);
-      }
-    }
-
-    mat-card-actions {
-      padding: 0 var(--space-lg) var(--space-lg);
-    }
+    gap: var(--space-md);
+    color: var(--text-muted);
   }
 
-  .email-section {
-    .email-btn {
-      width: 100%;
-      height: 48px;
-      font-weight: 700;
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-sm);
-
-      mat-icon {
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
-      }
-    }
+  .feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
   }
 
-  .feed-section {
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-2xl);
-      background: var(--card-bg-color);
-      border-radius: var(--radius-lg);
-      gap: var(--space-md);
-      color: var(--text-muted);
-
-      mat-spinner {
-        filter: drop-shadow(0 0 10px rgba(var(--primary-color-rgb), 0.2));
-      }
+  .feed-card {
+    .feed-image {
+      height: 160px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
     }
 
-    .feed-container {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-    }
-
-    .feed-card {
-      .feed-image {
-        height: 160px;
-        object-fit: cover;
-        border-top-left-radius: var(--radius-lg);
-        border-top-right-radius: var(--radius-lg);
-        transition: transform 0.5s ease;
-      }
-
-      &:hover .feed-image {
-        transform: scale(1.05);
-      }
-
-      mat-card-actions {
-        display: flex;
-        justify-content: flex-end;
-      }
-
-      a {
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        gap: var(--space-xs);
-
-        mat-icon {
-          font-size: 18px;
-          width: 18px;
-          height: 18px;
-        }
-      }
+    &:hover .feed-image {
+      transform: scale(1.05);
     }
   }
 }

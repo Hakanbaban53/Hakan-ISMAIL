@@ -1,4 +1,4 @@
-<div class="connect">
+<div class="page-container">
   <header class="connect-header animate-fade-in-up">
     <h1 class="section-title">Connect with Me</h1>
     <p class="section-description">Reach out for collaborations, professional inquiries, or just to say hi.</p>
@@ -6,26 +6,27 @@
 
   <section class="social-icons animate-fade-in-up animate-delay-1">
     @for (link of socialLinks; track link.name) {
-      <a [href]="link.url" target="_blank" mat-icon-button [aria-label]="link.name" class="social-btn">
-        <mat-icon [svgIcon]="link.icon"></mat-icon>
-      </a>
+    <a [href]="link.url" target="_blank" mat-icon-button [aria-label]="link.name" class="social-btn">
+      <mat-icon [svgIcon]="link.icon"></mat-icon>
+    </a>
     }
   </section>
 
   <div class="connect-grid">
     <!-- Email Section -->
-    <section class="email-section animate-fade-in-up animate-delay-2">
-      <mat-card class="contact-card premium-card">
+    <section class="animate-fade-in-up animate-delay-2">
+      <mat-card class="contact-card">
         <mat-card-header>
           <mat-icon mat-card-avatar>email</mat-icon>
           <mat-card-title>Direct Email</mat-card-title>
           <mat-card-subtitle>hakanismail53@gmail.com</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p class="card-text">Prefer traditional communication? Send me a direct email and I'll get back to you as soon as possible.</p>
+          Prefer traditional communication? Send me a direct email and I'll get back to you as soon
+          as possible.
         </mat-card-content>
         <mat-card-actions>
-          <button mat-flat-button color="primary" class="email-btn" (click)="sendEmail()">
+          <button mat-flat-button (click)="sendEmail()">
             <mat-icon>mail_outline</mat-icon>
             Send Email
           </button>
@@ -36,36 +37,36 @@
     <!-- Activity/Feed Section (Akış) -->
     <section class="feed-section animate-fade-in-up animate-delay-2">
       <h2 class="grid-title">Recent Activity</h2>
-      
+
       @if (isLoadingActivity) {
-        <div class="loading-container">
-          <mat-spinner diameter="40"></mat-spinner>
-          <p>Fetching latest activity...</p>
-        </div>
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Fetching latest activity...</p>
+      </div>
       } @else {
-        <div class="feed-container">
-          @for (item of feedItems; track item.title) {
-            <mat-card class="feed-card premium-card">
-              @if (item.image) {
-                <img mat-card-image [src]="item.image" [alt]="item.title" class="feed-image">
-              }
-              <mat-card-header>
-                <mat-icon mat-card-avatar>{{ item.icon }}</mat-icon>
-                <mat-card-title>{{ item.title }}</mat-card-title>
-                <mat-card-subtitle>{{ item.platform }} • {{ item.date }}</mat-card-subtitle>
-              </mat-card-header>
-              <mat-card-content>
-                <p class="card-text">{{ item.content }}</p>
-              </mat-card-content>
-              <mat-card-actions>
-                <a [href]="item.url" target="_blank" mat-button color="accent">
-                  View Update
-                  <mat-icon>open_in_new</mat-icon>
-                </a>
-              </mat-card-actions>
-            </mat-card>
+      <div class="feed-container">
+        @for (item of feedItems; track item.title) {
+        <mat-card class="feed-card">
+          @if (item.image) {
+          <img mat-card-image [src]="item.image" [alt]="item.title" class="feed-image">
           }
-        </div>
+          <mat-card-header>
+            <mat-icon mat-card-avatar>{{ item.icon }}</mat-icon>
+            <mat-card-title>{{ item.title }}</mat-card-title>
+            <mat-card-subtitle>{{ item.platform }} • {{ item.date }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            {{ item.content }}
+          </mat-card-content>
+          <mat-card-actions>
+            <a [href]="item.url" target="_blank" mat-stroked-button>
+              View Update
+              <mat-icon>open_in_new</mat-icon>
+            </a>
+          </mat-card-actions>
+        </mat-card>
+        }
+      </div>
       }
     </section>
   </div>

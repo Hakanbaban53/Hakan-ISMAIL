@@ -71,7 +71,7 @@
 
   @media (max-width: 768px) {
     position: fixed;
-    top: 4.5625rem; // 73px approx
+    top: var(--titlebar-height);
     left: 0;
     right: 0;
     background: var(--window-bg-color);

@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, of, tap } from 'rxjs';
-import { CacheService } from './cache.service';
+import { Observable, catchError, map, shareReplay } from 'rxjs';
 
 export interface DevToArticle {
   title: string;
@@ -16,34 +15,41 @@ export interface DevToArticle {
 @Injectable({ providedIn: 'root' })
 export class ActivityService {
   private http = inject(HttpClient);
-  private cache = inject(CacheService);
+  private cache = new Map<number, Observable<DevToArticle[]>>();
   private devToUsername = 'hakanbaban53';
 
-  private readonly TTL_MINUTES = 30;
+  getLatestArticles(
+    limit: number = 3,
+    forceRefresh = false,
+  ): Observable<DevToArticle[]> {
+    if (forceRefresh) {
+      this.cache.delete(limit);
+    }
 
-  getLatestArticles(limit: number = 3): Observable<DevToArticle[]> {
-    const cacheKey = `devto_articles_${limit}`;
-    const cached = this.cache.get<DevToArticle[]>(cacheKey);
-    if (cached) return of(cached);
+    if (!this.cache.has(limit)) {
+      const url = `https://dev.to/api/articles?username=${this.devToUsername}&per_page=${limit}`;
+      const request$ = this.http.get<any[]>(url).pipe(
+        map((articles) =>
+          articles.map((a) => ({
+            title: a.title,
+            url: a.url,
+            published_at: a.published_at,
+            description: a.description,
+            cover_image: a.cover_image,
+            social_image: a.social_image,
+            tag_list: a.tag_list,
+          })),
+        ),
+        shareReplay(1),
+        catchError((error) => {
+          console.error('Error fetching Dev.to articles:', error);
+          this.cache.delete(limit); // Don't cache errors
+          throw error;
+        }),
+      );
+      this.cache.set(limit, request$);
+    }
 
-    const url = `https://dev.to/api/articles?username=${this.devToUsername}&per_page=${limit}`;
-    return this.http.get<any[]>(url).pipe(
-      map((articles) =>
-        articles.map((a) => ({
-          title: a.title,
-          url: a.url,
-          published_at: a.published_at,
-          description: a.description,
-          cover_image: a.cover_image,
-          social_image: a.social_image,
-          tag_list: a.tag_list,
-        })),
-      ),
-      tap((data) => this.cache.set(cacheKey, data, this.TTL_MINUTES)),
-      catchError((error) => {
-        console.error('Error fetching Dev.to articles:', error);
-        return of([]);
-      }),
-    );
+    return this.cache.get(limit)!;
   }
 }

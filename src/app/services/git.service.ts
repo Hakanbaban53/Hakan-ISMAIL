@@ -1,16 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { CacheService } from './cache.service';
 
 @Injectable({ providedIn: 'root' })
 export class GitService {
   private http = inject(HttpClient);
-  private cache = inject(CacheService);
+  private cache = new Map<string, Observable<any>>();
   private githubProxy = (environment.githubProxyUrl || '').replace(/\/$/, '');
-
-  private readonly TTL_MINUTES = 60;
 
   private buildUrl(path: string): string {
     return this.githubProxy
@@ -18,49 +15,60 @@ export class GitService {
       : `https://api.github.com${path}`;
   }
 
-  getGitHubRepoDetails = (u: string, r: string) =>
-    this.http.get<any>(this.buildUrl(`/repos/${u}/${r}`));
+  get<T>(path: string, forceRefresh = false): Observable<T> {
+    if (forceRefresh) {
+      this.cache.delete(path);
+    }
 
-  getGitHubOrgRepos = (o: string) =>
-    this.http.get<any[]>(this.buildUrl(`/orgs/${o}/repos?per_page=100`));
+    if (!this.cache.has(path)) {
+      const url = this.buildUrl(path);
+      const request$ = this.http.get<T>(url).pipe(shareReplay(1));
+      this.cache.set(path, request$);
+    }
 
-  getGitHubOrgDetails(o: string): Observable<any> {
-    const cacheKey = `gh_org_${o}`;
-    const cached = this.cache.get<any>(cacheKey);
-    if (cached) return of(cached);
-
-    return this.http
-      .get<any>(this.buildUrl(`/orgs/${o}`))
-      .pipe(tap((data) => this.cache.set(cacheKey, data, this.TTL_MINUTES)));
+    return this.cache.get(path)! as Observable<T>;
   }
 
+  getGitHubRepoDetails = (u: string, r: string) =>
+    this.get<any>(`/repos/${u}/${r}`);
+
+  getGitHubOrgRepos = (o: string) =>
+    this.get<any[]>(`/orgs/${o}/repos?per_page=100`);
+
+  getGitHubOrgDetails = (o: string) => this.get<any>(`/orgs/${o}`);
+
   getGitHubFileContent = (u: string, r: string, p: string) =>
-    this.http.get<any>(this.buildUrl(`/repos/${u}/${r}/contents/${p}`));
+    this.get<any>(`/repos/${u}/${r}/contents/${p}`);
 
   getPinnedRepos(
     name: string,
     type: 'user' | 'organization' = 'organization',
+    forceRefresh = false,
   ): Observable<any> {
-    const cacheKey = `gh_pinned_${type}_${name}`;
-    const cached = this.cache.get<any>(cacheKey);
-    if (cached) return of(cached);
+    const cacheKey = `graphql_pinned_${type}_${name}`;
+    if (forceRefresh) {
+      this.cache.delete(cacheKey);
+    }
 
-    const query = `query($name: String!) {
-      ${type}(login: $name) {
-        pinnedItems(first: 10, types: REPOSITORY) {
-          nodes {
-            ... on Repository {
-              name description stargazerCount
-              primaryLanguage { name }
-              url openGraphImageUrl homepageUrl
+    if (!this.cache.has(cacheKey)) {
+      const query = `query($name: String!) {
+        ${type}(login: $name) {
+          pinnedItems(first: 10, types: REPOSITORY) {
+            nodes {
+              ... on Repository {
+                name description stargazerCount
+                primaryLanguage { name }
+                url openGraphImageUrl homepageUrl
+              }
             }
           }
         }
-      }
-    }`;
-    return this.graphql(query, { name }).pipe(
-      tap((data) => this.cache.set(cacheKey, data, this.TTL_MINUTES)),
-    );
+      }`;
+      const request$ = this.graphql<any>(query, { name }).pipe(shareReplay(1));
+      this.cache.set(cacheKey, request$);
+    }
+
+    return this.cache.get(cacheKey)! as Observable<any>;
   }
 
   graphql<T>(query: string, variables = {}): Observable<T> {

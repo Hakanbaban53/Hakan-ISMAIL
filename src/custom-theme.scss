@@ -591,7 +591,7 @@ $dark-theme: (
   --legend-gap-mobile: var(--space-sm);
 
   // Layout Constants
-  --titlebar-height: 40px;
+  --titlebar-height: 74px;
   --sidebar-width: 250px;
   --status-bar-height: 48px;
 
@@ -673,7 +673,19 @@ $dark-theme: (
       color-mix(in srgb, var(--view-bg-color) 90%, transparent) 100%
     );
 
+  mat-card {
+    overflow: hidden;
+  }
   mat-card-header {
+    mat-icon[mat-card-avatar] {
+      color: var(--primary-color);
+      background: rgba(var(--primary-color-rgb), 0.1);
+      padding: var(--space-xs);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     mat-card-title {
       display: flex;
       align-items: center;
@@ -695,6 +707,23 @@ $dark-theme: (
         border-radius: var(--badge-radius);
         box-shadow: 0 0 0 1px rgba(var(--accent-color-rgb), 0.2);
       }
+    }
+
+    mat-card-subtitle {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+  }
+
+  mat-card-actions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+
+    button,
+    a {
+      flex: 1;
+      min-width: 120px;
     }
   }
 }
@@ -1132,238 +1161,38 @@ mat-accordion {
   }
 }
 
-// ============================================================================
-// SECTION 6: MARKDOWN STYLING
-// ============================================================================
-// Reusable styles for rendering markdown content to match the application theme.
-// Mimics VS Code's markdown preview.
+.page-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
 
-.markdown-body {
-  // VS Code-like Markdown Styling
-  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 1.6;
-  word-wrap: break-word;
-  color: var(--window-fg-color);
-
-  // Headings
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin-top: 24px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--window-fg-color);
+  // Ensure content doesn't touch edges on small screens
+  @media (max-width: 768px) {
+    padding: 1rem;
   }
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
 
   h1 {
-    font-size: 2em;
-    padding-bottom: 0.3em;
-    border-bottom: 1px solid rgba(var(--window-fg-color-rgb), 0.2);
-  }
-
-  h2 {
-    font-size: 1.5em;
-    padding-bottom: 0.3em;
-    border-bottom: 1px solid rgba(var(--window-fg-color-rgb), 0.1);
-  }
-
-  h3 {
-    font-size: 1.25em;
-  }
-
-  h4 {
-    font-size: 1em;
-  }
-
-  // Paragraphs & Lists
-  p,
-  ul,
-  ol {
-    margin-top: 0;
-    margin-bottom: 16px;
-  }
-
-  li {
-    margin: 4px 0;
-    > p {
-      margin-top: 16px;
-    }
-  }
-
-  ul {
-    list-style-type: disc;
-    padding-left: 2em;
-  }
-
-  ol {
-    list-style-type: decimal;
-    padding-left: 2em;
-  }
-
-  // Links
-  a {
-    color: var(--accent-color);
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  // Emphasis
-  strong {
-    font-weight: 600;
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin: 0 0 1rem 0;
     color: var(--window-fg-color);
-  }
 
-  em {
-    font-style: italic;
-    color: var(--dim-color);
-  }
-
-  // Code
-  code {
-    padding: 0.2em 0.4em;
-    margin: 0;
-    font-size: 85%;
-    font-family:
-      "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-    background-color: rgba(var(--window-fg-color-rgb), 0.1);
-    border-radius: 6px;
-  }
-
-  pre {
-    padding: 16px;
-    overflow: auto;
-    font-size: 85%;
-    line-height: 1.45;
-    background-color: rgba(var(--window-fg-color-rgb), 0.05);
-    border-radius: 6px;
-    margin-top: 0;
-    margin-bottom: 16px;
-
-    code {
-      padding: 0;
-      margin: 0;
-      font-size: 100%;
-      word-break: normal;
-      white-space: pre;
-      background: transparent;
-      border: 0;
-      color: var(--window-fg-color);
+    @media (max-width: 768px) {
+      font-size: var(--font-size-3xl);
     }
   }
 
-  // Blockquotes
-  blockquote {
-    padding: 0 1em;
-    color: var(--dim-color);
-    border-left: 0.25em solid rgba(var(--window-fg-color-rgb), 0.2);
-    margin-top: 0;
-    margin-bottom: 16px;
-    background: rgba(var(--window-fg-color-rgb), 0.02);
-    padding-block: 8px;
-
-    > :first-child {
-      margin-top: 0;
-    }
-    > :last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  // Horizontal Rule
-  hr {
-    height: 0.25em;
-    padding: 0;
-    margin: 24px 0;
-    background-color: rgba(var(--window-fg-color-rgb), 0.2);
-    border: 0;
-  }
-
-  // Tables
-  table {
-    border-spacing: 0;
-    border-collapse: collapse;
-    margin-top: 0;
-    margin-bottom: 16px;
-    width: max-content;
-    max-width: 100%;
-    overflow: auto;
-    display: block; // Allows scrolling for wide tables
-
-    th,
-    td {
-      padding: 6px 13px;
-      border: 1px solid rgba(var(--window-fg-color-rgb), 0.2);
-    }
-
-    th {
-      font-weight: 600;
-      background-color: rgba(var(--window-fg-color-rgb), 0.1);
-    }
-
-    tr {
-      background-color: transparent;
-      border-top: 1px solid rgba(var(--window-fg-color-rgb), 0.1);
-
-      &:nth-child(2n) {
-        background-color: rgba(var(--window-fg-color-rgb), 0.03);
-      }
-    }
-  }
-
-  // Images
-  img {
-    max-width: 100%;
-    box-sizing: border-box;
-    background-color: transparent;
-    margin: 16px 0;
-    border-radius: 4px;
-    display: block;
-    height: auto;
-    margin: var(--space-md) auto;
-  }
-
-  // Task Lists
-  ul.contains-task-list {
-    list-style-type: none;
-    padding-left: 0;
-  }
-
-  .task-list-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-
-    input[type="checkbox"] {
-      margin-top: 0.3em;
-    }
-  }
-}
-
-// Keyframes
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(10px);
+  p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    margin: 0 auto;
+    max-width: 600px;
+    line-height: 1.6;
   }
 }

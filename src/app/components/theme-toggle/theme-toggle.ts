@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 import { ThemeService, Theme } from '../../services/theme.service';
 
 @Component({
   selector: 'app-theme-toggle',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [CommonModule],
   templateUrl: './theme-toggle.html',
   styleUrl: './theme-toggle.scss',
 })

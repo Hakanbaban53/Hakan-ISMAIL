@@ -1,23 +1,23 @@
-<div class="resume">
+<div class="page-container">
   <div class="resume-grid">
     <!-- Sidebar -->
     <aside class="sidebar animate-fade-in-up">
       <div class="profile-header">
-          <img [src]="profile.imagePath" class="profile-image" alt="{{ profile.name }}">
+        <img [src]="profile.imagePath" class="profile-image" alt="{{ profile.name }}">
         <h2>{{ profile.name }}</h2>
         <p class="subtitle">{{ profile.title }}</p>
       </div>
-      
+
       <mat-card class="info-card animate-fade-in-up animate-delay-1">
         <mat-card-header>
           <mat-icon mat-card-avatar>contact_page</mat-icon>
           <mat-card-title>Contact</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <mat-list class="premium-list">
+          <mat-list>
             <mat-list-item>
               <mat-icon matListItemIcon>email</mat-icon>
-              {{ profile.contact.email }}
+              <a [href]="'mailto:' + profile.contact.email" class="contact-link">{{ profile.contact.email }}</a>
             </mat-list-item>
             <!-- <mat-list-item>
               <mat-icon matListItemIcon>phone</mat-icon>
@@ -29,7 +29,8 @@
             </mat-list-item>
             <mat-list-item>
               <mat-icon matListItemIcon>link</mat-icon>
-              {{ profile.contact.linkedin }}
+              <a [href]="'https://' + profile.contact.linkedin" target="_blank" class="contact-link">{{
+                profile.contact.linkedin }}</a>
             </mat-list-item>
           </mat-list>
         </mat-card-content>
@@ -42,10 +43,10 @@
         </mat-card-header>
         <mat-card-content>
           @for (skill of profile.skills; track skill) {
-            <div class="skill-category">
-              <span class="category-name">{{ skill.category }}</span>
-              <p class="category-items">{{ skill.items.join(', ') }}</p>
-            </div>
+          <div class="skill-category">
+            <span class="category-name">{{ skill.category }}</span>
+            <p class="category-items">{{ skill.items.join(', ') }}</p>
+          </div>
           }
         </mat-card-content>
       </mat-card>
@@ -59,8 +60,8 @@
           <mat-icon>auto_stories</mat-icon>
           Personal
         </h3>
-        <mat-accordion class="premium-accordion">
-          <mat-expansion-panel class="resume-card premium-card">
+        <mat-accordion>
+          <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>person_outline</mat-icon>
@@ -69,12 +70,12 @@
             </mat-expansion-panel-header>
             <div class="panel-content">
               @for (paragraph of profile.aboutMe; track paragraph) {
-                <p class="description">{{ paragraph }}</p>
+              <p class="description">{{ paragraph }}</p>
               }
             </div>
           </mat-expansion-panel>
 
-          <mat-expansion-panel class="resume-card premium-card">
+          <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>favorite_border</mat-icon>
@@ -93,9 +94,9 @@
           <mat-icon>person</mat-icon>
           Professional Summary
         </h3>
-        <mat-card class="resume-card premium-card">
+        <mat-card>
           <mat-card-content>
-            <p class="description summary-text">{{ profile.summary }}</p>
+            {{ profile.summary }}
           </mat-card-content>
         </mat-card>
       </section>
@@ -107,17 +108,17 @@
         </h3>
         <div class="card-stack">
           @for (edu of profile.education; track edu) {
-            <mat-card class="resume-card premium-card">
-              <mat-card-header>
-                <mat-card-title>{{ edu.degree }}</mat-card-title>
-                <mat-card-subtitle>{{ edu.institution }}, {{ edu.year }}</mat-card-subtitle>
-              </mat-card-header>
-              @if (edu.thesis) {
-                <mat-card-content>
-                  <p class="description"><strong>Thesis:</strong> {{ edu.thesis }}</p>
-                </mat-card-content>
-              }
-            </mat-card>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ edu.degree }}</mat-card-title>
+              <mat-card-subtitle>{{ edu.institution }}, {{ edu.year }}</mat-card-subtitle>
+            </mat-card-header>
+            @if (edu.thesis) {
+            <mat-card-content>
+              <strong>Thesis:</strong> {{ edu.thesis }}
+            </mat-card-content>
+            }
+          </mat-card>
           }
         </div>
       </section>
@@ -129,16 +130,16 @@
         </h3>
         <div class="card-stack">
           @for (exp of profile.experience; track exp) {
-            <mat-card class="resume-card premium-card">
-              <mat-card-header>
-                <mat-card-title>{{ exp.title }}</mat-card-title>
-                <mat-card-subtitle>{{ exp.company }}</mat-card-subtitle>
-                <div class="date-badge">{{ exp.dates }}</div>
-              </mat-card-header>
-              <mat-card-content>
-                <p class="description">{{ exp.description }}</p>
-              </mat-card-content>
-            </mat-card>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ exp.title }}</mat-card-title>
+              <mat-card-subtitle>{{ exp.company }}</mat-card-subtitle>
+              <div class="date-badge">{{ exp.dates }}</div>
+            </mat-card-header>
+            <mat-card-content>
+              {{ exp.description }}
+            </mat-card-content>
+          </mat-card>
           }
         </div>
       </section>
