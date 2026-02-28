@@ -34,7 +34,7 @@ export class ResumeComponent {
       email: 'hakanismail53@gmail.com',
       // phone: '555-053-7018',
       location: 'İstanbul, Turkey',
-      linkedin: 'https://www.linkedin.com/in/hakanbaban53',
+      linkedin: 'linkedin.com/in/hakanbaban53',
     },
     skills: [
       {
