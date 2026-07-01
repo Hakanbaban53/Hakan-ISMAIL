@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -16,6 +16,7 @@ import { ActivityService, DevToArticle } from '../../services/activity.service';
     MatProgressSpinnerModule,
   ],
   templateUrl: './connect.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './connect.component.scss',
 })
 export class ConnectComponent implements OnInit {

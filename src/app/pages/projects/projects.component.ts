@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { GitService } from '../../services/git.service';
 import { SafeUrl } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
@@ -23,6 +23,7 @@ interface Project {
   selector: 'app-projects',
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './projects.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent implements OnInit {

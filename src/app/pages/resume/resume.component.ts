@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -15,6 +15,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatExpansionModule,
   ],
   templateUrl: './resume.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './resume.component.scss',
 })
 export class ResumeComponent {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationService } from '../../services/navigation.service';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,7 @@ import { AnimatedLogoComponent } from '../../components/animated-logo/animated-l
   selector: 'app-home',
   imports: [MatButtonModule, MatIconModule, AnimatedLogoComponent],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
