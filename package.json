@@ -9,6 +9,9 @@
     "test": "ng test"
   },
   "private": true,
+  "engines": {
+    "node": ">=22.22.3"
+  },
   "dependencies": {
     "@angular/animations": "^22.0.4",
     "@angular/cdk": "~22.0.3",
